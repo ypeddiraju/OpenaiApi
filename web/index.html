@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Runner</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="nav">
+        <div class="brand">AI Runner</div>
+        <nav>
+          <button class="tab-btn active" data-tab="home">Home</button>
+          <button class="tab-btn" data-tab="chat">Chat Completion</button>
+          <button class="tab-btn" data-tab="vendor">Vendor Matching</button>
+        </nav>
+      </header>
+      <div class="layout tab-content active" id="tab-home">
+      <aside class="sidebar">
+      <form id="params-form">
+        <div class="row">
+          <label>Model</label>
+          <select name="model">
+            <option value="gpt-5">gpt-5</option>
+            <option value="gpt-4o" selected>gpt-4o</option>
+            <option value="gpt-5-mini">gpt-5-mini</option>
+            <option value="o3">o3</option>
+            <option value="o1">o1</option>
+            <option value="gpt-4o-mini">gpt-4o-mini</option>
+          </select>
+        </div>
+        <div class="row">
+          <label>reasoning</label>
+          <select name="reasoning">
+            <option value="high" selected>high</option>
+            <option value="medium">medium</option>
+            <option value="low">low</option>
+          </select>
+        </div>
+        <div class="row">
+          <label>max_tokens</label>
+          <input name="max_tokens" type="number" value="2048" />
+        </div>
+        <div class="row">
+          <label>temperature</label>
+          <input name="temperature" type="number" step="0.1" value="0.5" />
+        </div>
+        <div class="row">
+          <label>top_p</label>
+          <input name="top_p" type="number" step="0.1" value="1" />
+        </div>
+        <div class="row">
+          <label>frequency_penalty</label>
+          <input name="frequency_penalty" type="number" step="0.1" value="0" />
+        </div>
+        <div class="row">
+          <label>presence_penalty</label>
+          <input name="presence_penalty" type="number" step="0.1" value="0" />
+        </div>
+        <div class="row">
+          <label>timeout (ms)</label>
+          <input name="timeout" type="number" value="60000" />
+        </div>
+        <div class="row">
+          <label>Show prompt</label>
+          <label class="toggle"><input type="checkbox" name="showPrompt" /> Select</label>
+        </div>
+        <button type="submit">Run</button>
+      </form>
+      </aside>
+      <section class="output">
+        <div class="collapsible" id="sec-result">
+          <div class="collapsible-header">
+            <button type="button" class="collapsible-toggle" aria-expanded="false"><span class="arrow"></span> Result</button>
+            <button id="copy-result" class="copy-btn" type="button">Copy</button>
+          </div>
+          <div class="collapsible-body" hidden>
+            <pre id="result"></pre>
+          </div>
+        </div>
+
+        <div class="collapsible" id="sec-prompt">
+          <div class="collapsible-header">
+            <button type="button" class="collapsible-toggle" aria-expanded="false"><span class="arrow"></span> Prompt Used</button>
+            <button id="copy-prompt" class="copy-btn" type="button">Copy</button>
+          </div>
+          <div class="collapsible-body" hidden>
+            <pre id="promptUsed"></pre>
+          </div>
+        </div>
+
+        <h3>Token Usage</h3>
+        <pre id="usage"></pre>
+
+        <div class="collapsible" id="sec-logs">
+          <div class="collapsible-header">
+            <button type="button" class="collapsible-toggle" aria-expanded="false"><span class="arrow"></span> Logs</button>
+          </div>
+          <div class="collapsible-body" hidden>
+            <pre id="logs"></pre>
+          </div>
+        </div>
+      </section>
+      </div>
+
+      <!-- Vendor Matching Tab -->
+      <div class="layout tab-content" id="tab-vendor">
+        <aside class="sidebar">
+          <form id="vendor-form">
+            <div class="row">
+              <label>minScore</label>
+              <input name="minScore" type="number" value="38" />
+            </div>
+            <div class="row">
+              <label>isCanadian</label>
+              <select name="isCanadian">
+                <option value="false" selected>false</option>
+                <option value="true">true</option>
+              </select>
+            </div>
+            <button type="button" id="vendor-submit">Run Matching</button>
+          </form>
+        </aside>
+        <section class="output">
+          <h2>Vendor Matching</h2>
+          <p>Paste your Phase 1 JSON below. The server will auto-load vendor CSVs from the <code>vendors/</code> folder.</p>
+          <div class="stack">
+            <label>Phase 1 JSON</label>
+            <textarea id="vm-phase1" rows="10" placeholder='{"remitToAddress": { ... }, "otherSupplierAddresses": [], "vendorCompanyName": "..."}'></textarea>
+            <div>
+              <button id="vm-run" type="button">Run</button>
+            </div>
+            <h3>Results</h3>
+            <pre id="vm-results"></pre>
+          </div>
+        </section>
+      </div>
+      <!-- Chat Completion Tab -->
+      <div class="layout tab-content" id="tab-chat">
+        <aside class="sidebar">
+          <!-- reuse same form for chat params -->
+          <form id="chat-params-form">
+            <div class="row">
+              <label>Model</label>
+              <select name="model">
+                <option value="gpt-5">gpt-5</option>
+                <option value="gpt-4o" selected>gpt-4o</option>
+                <option value="gpt-5-mini">gpt-5-mini</option>
+                <option value="o3">o3</option>
+                <option value="o1">o1</option>
+                <option value="gpt-4o-mini">gpt-4o-mini</option>
+              </select>
+            </div>
+            <div class="row">
+              <label>reasoning</label>
+              <select name="reasoning">
+                <option value="high" selected>high</option>
+                <option value="medium">medium</option>
+                <option value="low">low</option>
+              </select>
+            </div>
+            <div class="row">
+              <label>max_tokens</label>
+              <input name="max_tokens" type="number" value="2048" />
+            </div>
+            <div class="row">
+              <label>temperature</label>
+              <input name="temperature" type="number" step="0.1" value="0.7" />
+            </div>
+            <div class="row">
+              <label>top_p</label>
+              <input name="top_p" type="number" step="0.1" value="1" />
+            </div>
+            <div class="row">
+              <label>frequency_penalty</label>
+              <input name="frequency_penalty" type="number" step="0.1" value="0" />
+            </div>
+            <div class="row">
+              <label>presence_penalty</label>
+              <input name="presence_penalty" type="number" step="0.1" value="0" />
+            </div>
+            <div class="row">
+              <label>timeout (ms)</label>
+              <input name="timeout" type="number" value="60000" />
+            </div>
+          </form>
+        </aside>
+        <section class="output">
+          <h2>Chat</h2>
+          <div class="chat-box" id="chat-box"></div>
+          <form id="chat-form" class="chat-input">
+            <div class="chat-tools">
+              <label class="toggle"><input type="checkbox" id="include-history" checked /> Include history</label>
+              <button type="button" id="new-chat">New chat</button>
+              <label class="file"><input type="file" id="chat-file" multiple /></label>
+            </div>
+            <textarea id="chat-input" name="prompt" rows="8" placeholder="Type a message or paste a longer prompt..."></textarea>
+            <button type="submit">Send</button>
+          </form>
+        </section>
+      </div>
+    </main>
+    <script defer src="/main.js"></script>
+  </body>
+  </html>

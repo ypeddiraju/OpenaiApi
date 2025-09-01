@@ -1,0 +1,126 @@
+30 40
+UPPER ROCK ISLAND
+INVOICE
+LANDFILL
+Invoice Date
+06/30/2025
+17201 20TH AVE N
+EAST MOLINE, IL 61244
+Invoice No
+4724-000022724
+REPUBLIC
+Customer No
+4-4724-0333443
+SERVICES
+Page No
+1 of 2
+Due Date
+07/15/2025
+00000942
+EQ INDUSTRIAL SERVICES
+0102
+17440 COLLEGE PARKWAY
+Current Charges
+Total Amount Due
+LIVONIA, MI 48152
+$677.39
+$1,590.63
+Please Pay Total Amount Due
+Billing Questions? Call 309-496-2396
+Date Code Description
+Reference Rate Quantity
+Amount
+06/15
+Balance Forward
+621.26
+06/30
+Invoice 0000022725
+291.98
+06/26
+YB SW-CONST DEBRIS
+24 1336917
+56.95
+2.06 TN
+227.80
+06/26
+YB Contract: 4724258909
+06/26
+{1
+ENVIRONMENTALFEE 1.
+SC206227
+19.71
+1.00
+19.71
+-19.71 / Ticket ENVIRONMENTALFEE 11
+06/26
+}1
+FUEL RECOVERY FEE
+SC206228
+18.52
+1.00
+18.52
+(8.13% / Ticket )FUEL RECOVERY FEE
+06/26
+YB SW-CONST DEBRIS
+24 1336923
+56.95
+6.36 TN
+362.20
+06/26
+YB
+Contract: 4724258909
+06/26
+{1
+ENVIRONMENTALFEE 1
+SC206229
+19.71
+1.00
+19.71
+-19.71 / Ticket ENVIRONMENTALFEE 11
+06/26
+}1
+FUEL RECOVERY FEE
+SC206230
+29.45
+1.00
+29.45
+(8.13% / Ticket )FUEL RECOVERY FEE
+Material Summary
+ACCOUNT STATUS
+Current
+31-60 Days
+61-90 Days
+Over 90 Days
+Total Amount Due
+$1,590.63
+0.00
+0.00
+0.00
+$1,590.63
+Please return this portion below with your payment. Do not attach check to stub.
+UPPER ROCK ISLAND LANDFILL
+Invoice Date
+06/30/2025
+17201 20TH AVE N
+Invoice No.
+4724-000022724
+EAST MOLINE, IL 61244
+Customer No.
+4-4724-0333443
+REPUBLIC'
+SERVICES
+Current Charges:
+$677.39
+Total Amount Due:
+$1,590.63
+Please check if address has changed, and indicate change(s) on reverse side or call phone number above.
+Amount Paid:
+Please write your account number on your check and make payable to:
+EQ INDUSTRIAL SERVICES
+17440 COLLEGE PARKWAY
+UPPER ROCK ISLAND LANDFILL
+LIVONIA, MI 48152
+Please Return P.O. BOX 932899
+Payment To:
+CLEVELAND, OH 44193-0025
+44724033344300000000227240000677390001590633
