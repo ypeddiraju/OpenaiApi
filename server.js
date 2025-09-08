@@ -28,6 +28,7 @@ app.post('/api/run', async (req, res) => {
     presence_penalty,
     timeout,
   reasoning,
+  useLmOcr,
   } = req.body || {};
 
   const env = {
@@ -41,6 +42,7 @@ app.post('/api/run', async (req, res) => {
     TIMEOUT_MS: String(timeout ?? ''),
   REASONING_EFFORT: String(reasoning ?? ''),
   SHOW_PROMPT: String(req.body?.showPrompt ? '1' : ''),
+  USE_LM_OCR: String(useLmOcr ? '1' : ''),
   };
 
   const child = spawn(process.execPath, [path.join(__dirname, 'index.js')], {

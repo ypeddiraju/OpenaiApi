@@ -24,6 +24,7 @@ ${makeJSONBlock({
     invoiceDate: '(REQUIRED) string - The invoice date (in ISO format e.g. 2022-01-21)',
     invoiceAmount: '(REQUIRED) number - The invoice amount for the invoice',
     currency: '(REQUIRED) string - The currency of the invoice (e.g. USD)',
+    isRepublicServices: '(REQUIRED) boolean - True if the invoice has a prominent "REPUBLIC SERVICES" logo, otherwise false.',
     vendorCompanyName: "(REQUIRED) string - The name of the vendor company that issued the invoice, inferred independently from the invoice content (not from context or prompt)",
     rentalAgreementNumber: "(OPTIONAL) string - The rental agreement number, often labeled 'Rental Agreement #'",
     remitToAddress: {
@@ -74,6 +75,12 @@ ${makeJSONBlock({
 - Do not assume the vendor company name based on this prompt or the company "Republic Services".
 - Look for clear indicators such as the company name in the header, footer, or contact information of the invoice.
 - If an abbreviation or logo is present (e.g., "ORRCO"), and a corresponding full company name is also found (e.g., "Oil Re-Refining Company, Inc."), prioritize extracting the full company name. The full name is often found near the abbreviation or logo.
+
+# NOTES - isRepublicServices
+- This field indicates whether the invoice is visually identifiable as being from "Republic Services".
+- Look for a prominent logo or branding on the invoice that clearly says "REPUBLIC SERVICES".
+- If such a logo is present, set the value to true.
+- If the logo is not present, or if the branding is for a different company (even a subsidiary), set the value to false.
 
 # NOTES - Rental Agreement Number
 - This is a number specific to rental invoices, particularly for vehicles.

@@ -9,6 +9,7 @@ A simple Node + Express web app to test invoice extraction prompts, chat with Op
 ## Features
 - Reads OCR text from `text/` and aggregates it into the prompt.
 - Loads all images from `images/` and sends them to the model.
+- Optional LM Studio OCR: when enabled in the Home tab, sends images to a local LM Studio server (model `nanonets-ocr-s`) to extract raw text, with automatic fallback to the `text/` files if LM Studio is unavailable.
 - Routes reasoning models (gpt-5, o3, o1) to the Responses API with configurable reasoning effort.
 - Routes other models (gpt-4o, gpt-4o-mini, gpt-5-mini) to Chat Completions API.
 - Token usage displayed on the Home tab; chat endpoint also returns usage.
@@ -19,6 +20,7 @@ A simple Node + Express web app to test invoice extraction prompts, chat with Op
 ## Prerequisites
 - Node.js 18+ (LTS recommended)
 - OpenAI API Key
+- (Optional) LM Studio running with an OCR-capable model (tested with `nanonets-ocr-s`) at `http://172.16.7.50:1234`.
 
 ## Quick start
 1. Clone the repo
@@ -50,6 +52,13 @@ A simple Node + Express web app to test invoice extraction prompts, chat with Op
   - Text directory: `C:\\codebase\\OpenaiApi\\text` (see `utils/PromptText.js`)
   - Images directory: `C:/codebase/OpenaiApi/images` (see `index.js`)
   - Vendors directory: `C:\\codebase\\OpenaiApi\\vendors` (CSV files auto-loaded by `server.js`)
+- LM Studio OCR:
+  - Enable per run in the Home tab by checking "Use LM Studio OCR".
+  - The UI sets an env flag `USE_LM_OCR=1` for the run; alternatively you can set it manually if you invoke the runner yourself.
+  - Endpoint and model are currently hardcoded in `utils/PromptText.js`:
+    - URL: `http://172.16.7.50:1234/v1/chat/completions`
+    - Model: `nanonets-ocr-s`
+  - If the LM Studio call fails, the app falls back to aggregating `.txt` files from `text/`.
 - Reasoning models and effort:
   - Reasoning models: `['gpt-5', 'o3', 'o1']` are routed to Responses API
   - Effort set via UI (Home/Chat) and passed through to the backend
@@ -70,6 +79,7 @@ A simple Node + Express web app to test invoice extraction prompts, chat with Op
 ## Using the app
 - Home tab
   - Choose model and parameters; click Run
+  - (Optional) Toggle "Use LM Studio OCR" to extract raw text via LM Studio; the app automatically falls back to local `text/` files if LM Studio fails
   - (Optional) Toggle "Show prompt" to include and display the exact prompt that will be sent to the model
   - The app aggregates the OCR text and images, sends to OpenAI, and shows the full response
   - Result and Prompt Used are shown in collapsible sections with arrow toggles; both expand automatically after a run and include Copy buttons
@@ -97,6 +107,7 @@ A simple Node + Express web app to test invoice extraction prompts, chat with Op
 - 400 Unrecognized request argument `timeout`: already handled by passing timeout as client option
  - Vendor Matching: "No CSV files found" — ensure CSVs exist under `vendors/`
  - Vendor Matching: Empty results — verify Phase 1 addresses and that CSVs contain expected columns
+ - LM Studio OCR: If you enabled the toggle but still see text from the `text/` folder, LM Studio likely failed and the app used the fallback. Ensure LM Studio is running and reachable at `http://172.16.7.50:1234`. To change the URL/model, edit `utils/PromptText.js`.
 
 ## Security
 - Do not commit `.env` or any API keys

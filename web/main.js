@@ -38,6 +38,8 @@ form.addEventListener('submit', async (e) => {
   }
   // coerce showPrompt checkbox
   data.showPrompt = data.showPrompt === 'on';
+  // coerce useLmOcr checkbox
+  data.useLmOcr = data.useLmOcr === 'on';
 
   try {
     const r = await fetch('/api/run', {
