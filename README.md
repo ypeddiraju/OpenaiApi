@@ -1,15 +1,18 @@
 # OpenAI Invoice Runner
 
-A simple Node + Express web app to test invoice extraction prompts, chat with OpenAI models, and run vendor matching. It has three tabs:
+A simple Node + Express web app to test invoice extraction prompts, chat with OpenAI models, try Gemini models, and run vendor matching. It has four tabs:
 
 - Home: Runs a one-shot prompt against your local invoice text and images, and shows token usage.
-- Chat Completion: A chat UI with optional multi-file image upload, include-history toggle, and "New chat" button.
+- Chat Completion: A chat UI for OpenAI models with optional multi-file image upload, include-history toggle, “New chat”, and a red expand editor button on the input box.
+- Gemini (beta): A chat UI for Google Gemini models with similar controls (adds top_k) and the same red expand editor button.
 - Vendor Matching: Finds best vendor matches from CSVs in the `vendors/` folder based on a Phase 1 JSON payload.
 
 ## Features
 - Reads OCR text from `text/` and aggregates it into the prompt.
 - Loads all images from `images/` and sends them to the model.
 - Optional LM Studio OCR: when enabled in the Home tab, sends images to a local LM Studio server (model `nanonets-ocr-s`) to extract raw text, with automatic fallback to the `text/` files if LM Studio is unavailable.
+- Gemini chat support via Google Generative AI (`/api/gemini-chat`).
+- Chat input “expand editor” for composing long prompts (both OpenAI Chat and Gemini tabs).
 - Routes reasoning models (gpt-5, o3, o1) to the Responses API with configurable reasoning effort.
 - Routes other models (gpt-4o, gpt-4o-mini, gpt-5-mini) to Chat Completions API.
 - Token usage displayed on the Home tab; chat endpoint also returns usage.
@@ -21,6 +24,7 @@ A simple Node + Express web app to test invoice extraction prompts, chat with Op
 - Node.js 18+ (LTS recommended)
 - OpenAI API Key
 - (Optional) LM Studio running with an OCR-capable model (tested with `nanonets-ocr-s`) at `http://172.16.7.50:1234`.
+- (Optional for Gemini) Google Generative AI key in `.env` as `GOOGLE_API_KEY` (or `GEMINI_API_KEY`).
 
 ## Quick start
 1. Clone the repo
@@ -47,6 +51,7 @@ A simple Node + Express web app to test invoice extraction prompts, chat with Op
 ## Configuration
 - API key: `.env`
   - `OPENAI_API_KEY=your_key_here`
+  - `GOOGLE_API_KEY=your_key_here` (or `GEMINI_API_KEY`) — required for Gemini tab
   - Optional: `PORT=3000`
 - Hardcoded paths (Windows):
   - Text directory: `C:\\codebase\\OpenaiApi\\text` (see `utils/PromptText.js`)
@@ -68,6 +73,7 @@ A simple Node + Express web app to test invoice extraction prompts, chat with Op
 
 ## Project structure
 - `server.js` — Express server, static web, `/api/run`, `/api/chat`, and `/api/vendor-matching`
+  - Also exposes `/api/gemini-chat` for the Gemini tab
 - `index.js` — Runner for Home tab; prepares prompt + images and calls OpenAI
 - `const.js` — Prompt template and JSON schema description
 - `utils/PromptText.js` — Aggregates `.txt` files in `text/` into a single string
@@ -88,6 +94,13 @@ A simple Node + Express web app to test invoice extraction prompts, chat with Op
   - Type a message and optionally attach one or more images
   - Include history toggle controls whether to send prior exchanges
   - New chat clears the conversation in the browser
+  - Use the red 🔎 button in the input to open a large editor for long prompts
+
+- Gemini (beta) tab
+  - Similar to Chat Completion but calls Gemini models; supports images
+  - Models include `gemini-1.5-flash`, `gemini-1.5-pro`, `gemini-2.0-flash-exp`; includes `top_k`
+  - Requires `GOOGLE_API_KEY` in `.env`
+  - The red 🔎 button expands the message editor
 
 - Vendor Matching tab
   - Paste your Phase 1 JSON (shape: `{ remitToAddress, otherSupplierAddresses?, vendorCompanyName? }`)
@@ -108,6 +121,7 @@ A simple Node + Express web app to test invoice extraction prompts, chat with Op
  - Vendor Matching: "No CSV files found" — ensure CSVs exist under `vendors/`
  - Vendor Matching: Empty results — verify Phase 1 addresses and that CSVs contain expected columns
  - LM Studio OCR: If you enabled the toggle but still see text from the `text/` folder, LM Studio likely failed and the app used the fallback. Ensure LM Studio is running and reachable at `http://172.16.7.50:1234`. To change the URL/model, edit `utils/PromptText.js`.
+ - Gemini: 400 "Missing GOOGLE_API_KEY" — set `GOOGLE_API_KEY` (or `GEMINI_API_KEY`) in `.env` and restart
 
 ## Security
 - Do not commit `.env` or any API keys

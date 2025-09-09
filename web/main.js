@@ -108,6 +108,7 @@ const chatParamsForm = document.getElementById('chat-params-form');
 const includeHistoryEl = document.getElementById('include-history');
 const newChatBtn = document.getElementById('new-chat');
 const chatFileEl = document.getElementById('chat-file');
+const chatComposeBtn = document.getElementById('chat-compose');
 
 function appendMsg(role, text, opts = {}) {
   const wrap = document.createElement('div');
@@ -257,6 +258,93 @@ chatForm?.addEventListener('submit', async (e) => {
     setMsgText(pending.bubble, 'Error: ' + err.message);
   }
   finally {
+    sendBtn && (sendBtn.disabled = false);
+  }
+});
+
+// Gemini (beta) UI
+const gemForm = document.getElementById('gem-chat-form');
+const gemInput = document.getElementById('gem-chat-input');
+const gemBox = document.getElementById('gem-chat-box');
+const gemParamsForm = document.getElementById('gem-params-form');
+const gemIncludeHistoryEl = document.getElementById('gem-include-history');
+const gemNewChatBtn = document.getElementById('gem-new-chat');
+const gemFileEl = document.getElementById('gem-chat-file');
+const gemComposeBtn = document.getElementById('gem-compose');
+
+// Compose modal (shared)
+const composeModal = document.getElementById('compose-modal');
+const composeEditor = document.getElementById('compose-editor');
+const composeClose = document.getElementById('compose-close');
+const composeCancel = document.getElementById('compose-cancel');
+const composeSave = document.getElementById('compose-save');
+let composeTarget = null; // textarea element
+
+function openCompose(targetTextarea) {
+  composeTarget = targetTextarea;
+  composeEditor.value = targetTextarea?.value || '';
+  composeModal.hidden = false;
+  composeEditor.focus();
+}
+function closeCompose() { composeModal.hidden = true; composeTarget = null; }
+composeClose?.addEventListener('click', closeCompose);
+composeCancel?.addEventListener('click', closeCompose);
+composeSave?.addEventListener('click', () => {
+  if (composeTarget) composeTarget.value = composeEditor.value || '';
+  closeCompose();
+});
+chatComposeBtn?.addEventListener('click', () => openCompose(chatInput));
+gemComposeBtn?.addEventListener('click', () => openCompose(gemInput));
+
+let gemHistory = [];
+gemNewChatBtn?.addEventListener('click', () => {
+  gemHistory = [];
+  gemBox.innerHTML = '';
+});
+
+gemForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const content = gemInput.value.trim();
+  if (!content) return;
+  const files = gemFileEl?.files;
+  const fileNames = files && files.length ? Array.from(files).map(f => f.name) : [];
+  appendMsg('user', content, { attachments: fileNames });
+  gemInput.value = '';
+  gemHistory.push({ role: 'user', content });
+
+  const params = Object.fromEntries(new FormData(gemParamsForm).entries());
+  for (const k of ['max_tokens','timeout','top_k']) if (params[k] !== '') params[k] = Number(params[k]);
+  for (const k of ['temperature','top_p']) if (params[k] !== '') params[k] = Number(params[k]);
+
+  const messages = gemIncludeHistoryEl?.checked ? gemHistory : gemHistory.slice(-1);
+
+  const sendBtn = gemForm.querySelector('button[type="submit"]');
+  sendBtn && (sendBtn.disabled = true);
+  const pending = appendMsg('assistant', '', { typing: true });
+
+  try {
+    let j;
+    if (files && files.length) {
+      const fd = new FormData();
+      fd.append('payload', JSON.stringify({ ...params, messages }));
+      for (const f of files) fd.append('files', f, f.name);
+      const r = await fetch('/api/gemini-chat', { method: 'POST', body: fd });
+      j = await r.json();
+    } else {
+      const r = await fetch('/api/gemini-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...params, messages })
+      });
+      j = await r.json();
+    }
+    const text = j?.text || j?.error || '';
+    setMsgText(pending.bubble, text);
+    if (j?.text) gemHistory.push({ role: 'assistant', content: j.text });
+    if (files && files.length) gemFileEl.value = '';
+  } catch (err) {
+    setMsgText(pending.bubble, 'Error: ' + err.message);
+  } finally {
     sendBtn && (sendBtn.disabled = false);
   }
 });

@@ -41,6 +41,19 @@ pre { white-space: pre-wrap; word-break: break-word; background: #0f1524; paddin
 .chat-msg .role { color: var(--muted); font-size: 0.85rem; }
 .chat-msg .bubble { background: #121826; padding: 8px 10px; border-radius: 6px; display: inline-block; margin-top: 4px; }
 .chat-input { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.compose-wrap { position: relative; }
+.compose-wrap textarea { width: 100%; }
+.compose-wrap .icon-btn { position: absolute; right: 8px; bottom: 8px; }
+/* Make compose-arrow buttons red */
+.compose-wrap .icon-btn {
+  background: #dc3545; /* red */
+  border-color: #b02a37;
+  color: #fff;
+}
+.compose-wrap .icon-btn:hover {
+  background: #c82333;
+  border-color: #9a2530;
+}
 .chat-input textarea#chat-input { resize: vertical; min-height: 160px; }
 .chat-tools { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
 .toggle input { margin-right: 6px; }
@@ -59,6 +72,20 @@ textarea { width: 100%; min-height: 140px; background: #0f1524; color: var(--tex
 /* Copy button */
 .copy-btn { margin-left: 8px; background: #253048; border: 1px solid #32405f; padding: 4px 8px; font-size: 12px; border-radius: 5px; color: #d9e3f0; }
 .copy-btn:hover { background: #2b3856; }
+
+/* Small icon button */
+.icon-btn { margin-left: 8px; padding: 4px 8px; border: 1px solid #ccc; background: #f7f7f7; border-radius: 4px; cursor: pointer; }
+
+/* Modal */
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal[hidden] { display: none; }
+.modal-content { width: min(1000px, 96vw); height: min(80vh, 900px); background: #fff; border-radius: 8px; display: flex; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,0.2); color: #222; }
+.modal-header, .modal-footer { padding: 10px 12px; border-bottom: 1px solid #eee; display: flex; align-items: center; }
+.modal-header { justify-content: space-between; }
+.modal-footer { border-bottom: none; border-top: 1px solid #eee; justify-content: flex-end; gap: 8px; }
+.modal-body { flex: 1; padding: 8px 12px; }
+#compose-editor { width: 100%; height: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 13px; }
+.primary { background: #0d6efd; color: #fff; border-color: #0d6efd; }
 
 /* Attachment chips */
 .attachments { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px; }

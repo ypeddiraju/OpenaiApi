@@ -7,6 +7,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import csvParser from 'csv-parser';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -175,6 +176,65 @@ app.post('/api/chat', upload.array('files', 10), async (req, res) => {
     const text = response?.choices?.[0]?.message?.content || '';
     const usage = response?.usage || undefined;
     return res.json({ ok: true, text, usage });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+// Gemini (beta) chat endpoint
+app.post('/api/gemini-chat', upload.array('files', 10), async (req, res) => {
+  try {
+    let body;
+    if (req.is('application/json')) {
+      body = req.body;
+    } else if ((req.files && req.files.length) || req.body?.payload) {
+      try { body = JSON.parse(req.body?.payload || '{}'); } catch { body = {}; }
+    } else {
+      body = {};
+    }
+
+    const {
+      model = 'gemini-1.5-flash',
+      max_tokens = 2048,
+      temperature = 0.7,
+      top_p = 1,
+      top_k = 40,
+      timeout,
+      messages = [],
+    } = body || {};
+
+    const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) return res.status(400).json({ ok: false, error: 'Missing GOOGLE_API_KEY' });
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const modelClient = genAI.getGenerativeModel({ model });
+
+    // Convert our simple chat history to Gemini input
+    // Attach images if present in this request
+    const parts = [];
+    for (const m of messages) {
+      const text = String(m?.content || '');
+      if (!text) continue;
+      parts.push({ text });
+    }
+    if (Array.isArray(req.files)) {
+      for (const f of req.files) {
+        if (/^image\//i.test(f.mimetype)) {
+          parts.push({ inlineData: { data: f.buffer.toString('base64'), mimeType: f.mimetype } });
+        }
+      }
+    }
+
+    const generationConfig = {
+      maxOutputTokens: Number(max_tokens) || undefined,
+      temperature: typeof temperature === 'number' ? temperature : undefined,
+      topP: typeof top_p === 'number' ? top_p : undefined,
+      topK: typeof top_k === 'number' ? top_k : undefined,
+    };
+
+    const reqOpts = typeof timeout === 'number' ? { timeout } : undefined;
+    const result = await modelClient.generateContent({ contents: [{ role: 'user', parts }], generationConfig }, reqOpts);
+    const text = result?.response?.text?.() || '';
+    return res.json({ ok: true, text });
   } catch (e) {
     res.status(500).json({ ok: false, error: e?.message || String(e) });
   }
