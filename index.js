@@ -67,7 +67,20 @@ async function main() {
     presence_penalty: numOrDefault(process.env.PRESENCE_PENALTY, 0),
     dimensions: 512
 };
-    const content = prompt;
+    
+    // Use custom prompt if provided, otherwise use default prompt
+    let content;
+    if (process.env.CUSTOM_PROMPT) {
+        try {
+            content = Buffer.from(process.env.CUSTOM_PROMPT, 'base64').toString('utf8');
+        } catch (error) {
+            console.error('Error decoding custom prompt:', error);
+            content = prompt; // fallback to default
+        }
+    } else {
+        content = prompt;
+    }
+    
     if (String(process.env.SHOW_PROMPT || '') === '1') {
         console.log('AI Prompt:', content);
     }

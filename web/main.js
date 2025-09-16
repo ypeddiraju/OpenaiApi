@@ -6,6 +6,22 @@ const promptEl = document.getElementById('promptUsed');
 const copyResultBtn = document.getElementById('copy-result');
 const copyPromptBtn = document.getElementById('copy-prompt');
 
+// Load default prompt on page load
+async function loadDefaultPrompt() {
+  try {
+    const response = await fetch('/api/default-prompt');
+    const data = await response.json();
+    if (data.prompt && promptEl) {
+      promptEl.value = data.prompt;
+    }
+  } catch (error) {
+    console.error('Failed to load default prompt:', error);
+  }
+}
+
+// Load default prompt when page loads
+loadDefaultPrompt();
+
 // Collapsible sections (Home)
 function setupCollapsible(secId) {
   const sec = document.getElementById(secId);
@@ -41,6 +57,12 @@ form.addEventListener('submit', async (e) => {
   // coerce useLmOcr checkbox
   data.useLmOcr = data.useLmOcr === 'on';
 
+  // Get custom prompt from the textarea if it has content
+  const customPrompt = promptEl?.value?.trim();
+  if (customPrompt) {
+    data.customPrompt = customPrompt;
+  }
+
   try {
     const r = await fetch('/api/run', {
       method: 'POST',
@@ -55,7 +77,9 @@ form.addEventListener('submit', async (e) => {
     }
   resultEl.textContent = display || JSON.stringify({ ok: j.ok, docType: j.docType }, null, 2);
     if (j.usage) usageEl.textContent = JSON.stringify(j.usage, null, 2);
-  if (promptEl && j.prompt) promptEl.textContent = j.prompt;
+  if (promptEl && j.prompt) {
+    promptEl.value = j.prompt; // Use .value for textarea instead of .textContent
+  }
     logsEl.textContent = (j.stdout || '') + (j.stderr || '');
     // Auto-expand sections when content arrives
     for (const id of ['sec-result','sec-prompt']) {
@@ -83,7 +107,7 @@ copyResultBtn?.addEventListener('click', async () => {
 });
 copyPromptBtn?.addEventListener('click', async () => {
   try {
-    await navigator.clipboard.writeText(promptEl?.textContent || '');
+    await navigator.clipboard.writeText(promptEl?.value || '');
     copyPromptBtn.textContent = 'Copied';
     setTimeout(() => (copyPromptBtn.textContent = 'Copy'), 1200);
   } catch {}

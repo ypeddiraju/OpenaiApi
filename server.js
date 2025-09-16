@@ -30,6 +30,7 @@ app.post('/api/run', async (req, res) => {
     timeout,
   reasoning,
   useLmOcr,
+  customPrompt,
   } = req.body || {};
 
   const env = {
@@ -44,6 +45,7 @@ app.post('/api/run', async (req, res) => {
   REASONING_EFFORT: String(reasoning ?? ''),
   SHOW_PROMPT: String(req.body?.showPrompt ? '1' : ''),
   USE_LM_OCR: String(useLmOcr ? '1' : ''),
+  CUSTOM_PROMPT: customPrompt ? Buffer.from(customPrompt).toString('base64') : '',
   };
 
   const child = spawn(process.execPath, [path.join(__dirname, 'index.js')], {
@@ -85,6 +87,17 @@ app.post('/api/run', async (req, res) => {
       stderr: err,
     });
   });
+});
+
+// Get default prompt endpoint
+app.get('/api/default-prompt', async (req, res) => {
+  try {
+    // Import the prompt from const.js
+    const { prompt } = await import('./const.js');
+    res.json({ prompt });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to load default prompt' });
+  }
 });
 
 // Chat endpoint for the Chat Completion tab (supports multiple files)
