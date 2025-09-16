@@ -127,5 +127,19 @@ A simple Node + Express web app to test invoice extraction prompts, chat with Op
 - Do not commit `.env` or any API keys
 - `.gitignore` excludes `node_modules/`, `.env`, logs, and common local files
 
+## Testing
+The project uses **Jest** for unit testing.
+
+- Install Jest (already added as a dev‑dependency):
+  ```bash
+  npm install --save-dev jest
+  ```
+- Run the test suite:
+  ```bash
+  npm test
+  ```
+
+Test files are located in `utils/__tests__/`. They verify the utility functions `makeJSONBlock` and `PromptText`.
+
 ## License
 ISC (see `package.json`).
