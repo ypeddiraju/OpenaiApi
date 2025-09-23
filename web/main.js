@@ -6,6 +6,9 @@ const promptEl = document.getElementById('promptUsed');
 const copyResultBtn = document.getElementById('copy-result');
 const copyPromptBtn = document.getElementById('copy-prompt');
 
+// Track the originally loaded default prompt so we can distinguish edits if needed
+let defaultPromptValue = '';
+
 // Load default prompt on page load
 async function loadDefaultPrompt() {
   try {
@@ -13,6 +16,7 @@ async function loadDefaultPrompt() {
     const data = await response.json();
     if (data.prompt && promptEl) {
       promptEl.value = data.prompt;
+  defaultPromptValue = data.prompt;
     }
   } catch (error) {
     console.error('Failed to load default prompt:', error);
@@ -43,7 +47,7 @@ form.addEventListener('submit', async (e) => {
   resultEl.textContent = 'Running...';
   logsEl.textContent = '';
   usageEl.textContent = '';
-  if (promptEl) promptEl.textContent = '';
+  // Do NOT clear the prompt textarea here; user edits must be preserved and sent
 
   const data = Object.fromEntries(new FormData(form).entries());
   for (const k of ['max_tokens','timeout']) {
@@ -58,9 +62,10 @@ form.addEventListener('submit', async (e) => {
   data.useLmOcr = data.useLmOcr === 'on';
 
   // Get custom prompt from the textarea if it has content
-  const customPrompt = promptEl?.value?.trim();
-  if (customPrompt) {
-    data.customPrompt = customPrompt;
+  // Always include the edited prompt if non-empty; backend will fall back to default when absent
+  const currentPrompt = promptEl?.value || '';
+  if (currentPrompt.trim().length) {
+    data.customPrompt = currentPrompt;
   }
 
   try {
