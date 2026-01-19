@@ -1,0 +1,61 @@
+Libby Environmental, Inc.
+Invoice
+3322 South Bay Road NE
+Olympia, WA 98506
+ENVIRONMENTAL
+3603522110
+libbyenv@gmail.com
+BILL TO
+NRC-Republic Services
+Accounts Payable
+3500 Sunrise Highway
+Suite 200, Building 200
+Great River, NY 11739
+INVOICE #
+DATE
+TOTAL DUE
+DUE DATE
+TERMS
+ENCLOSED
+L251097
+10/14/2025
+$984.00
+11/13/2025
+Net 30
+P.O. #/ PROJECT
+P216.3006986
+QUANTITY
+DESCRIPTION
+RATE
+AMOUNT
+1
+VOCs by 8260 5 Day TAT
+195.00
+195.00
+1
+NWTPH-Gx 5 Day TAT
+85.00
+85.00
+1
+NWTPH-Dx Extended (soil/product) 5 Day TAT
+92.00
+92.00
+1
+PCB's by 8082 (soil/product) 5 Day TAT
+105.00
+105.00
+1
+Semi-Volatiles by 8270 10 Day TAT
+402.00
+402.00
+1
+Flash Point / Ignitability 5 Day TAT
+75.00
+75.00
+1
+pH 5 Day TAT
+30.00
+30.00
+It's been a pleasure working with you!
+BALANCE DUE
+$984.00

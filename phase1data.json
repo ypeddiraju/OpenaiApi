@@ -1,0 +1,37 @@
+{
+    "chainOfThought": "The invoice is from Diesel Direct, as indicated by the logo and company name at the top. The invoice number is clearly labeled as 120251118. The invoice amount is 3851.49, which is the total listed. There is no specific currency mentioned, but assuming USD is safe given the context. The invoice does not display any Republic Services logo, so isRepublicServices is false. There is no date or other addresses visible on the invoice.",
+    "invoiceNumber": "120251118",
+    "invoiceDate": "",
+    "invoiceAmount": 3851.49,
+    "currency": "USD",
+    "isRepublicServices": false,
+    "vendorCompanyName": "Diesel Direct",
+    "rentalAgreementNumber": null,
+    "remitToAddress": {
+        "companyName": null,
+        "address1": null,
+        "state": null,
+        "zipCode": null
+    },
+    "otherSupplierAddresses": [],
+    "shipToAddress": {
+        "companyName": null,
+        "address1": null,
+        "state": null,
+        "zipCode": null
+    },
+    "otherAddresses": [],
+    "billToAddress": {
+        "companyName": null,
+        "address1": null,
+        "state": null,
+        "zipCode": null
+    },
+    "soldToAddress": {
+        "companyName": null,
+        "address1": null,
+        "state": null,
+        "zipCode": null
+    },
+    "poNumber": ""
+}

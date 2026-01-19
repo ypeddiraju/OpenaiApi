@@ -22,7 +22,7 @@ export function scoreAddressMatch(a,vendorCompanyName, b, logIt = false) {
 
   if (b.companyName == "CUMMINGS, MCCLOREY, DAVIS, & ACHO PLC") {
     console.log("score", score, "matches", noOfMatches);
-  }
+  } 
   if (!a || !b) return { score, noOfMatches,companyMatchScore ,zipNineMatch};
   if (a.zipCode && b.zipCode) {
     let txtZipCode = b.zipCode + "";
@@ -117,7 +117,7 @@ export function scoreAddressMatch(a,vendorCompanyName, b, logIt = false) {
     }
   }
 
-  if (a.companyName && b.companyName) {
+  if ((a.companyName || vendorCompanyName) && b.companyName) {
     let found = false
     let vcnScore=0;
     let cnScore=0;
@@ -147,6 +147,9 @@ export function scoreAddressMatch(a,vendorCompanyName, b, logIt = false) {
   return { score, noOfMatches, companyMatchScore,zipNineMatch };
 }
 export function companyNameScore(a, b, Desc) {
+  // If either name is missing, we can't score
+  if (!a || !b) return 0;
+  
   const aNameParts = chupUp(a)
   const bNameParts = chupUp(b).filter(v => !companyNameWordsToIgnore.includes(v))
   const bDescParts = chupUp(Desc).filter(v => !companyNameWordsToIgnore.includes(v))
@@ -210,7 +213,7 @@ export function getTopScorers(scoredData, minScore) {
     let singleZipNineMatch = false;
     let zipNineMatchCount = 0;
 
-    scoredData.forEach(({ noOfMatches, companyMatchScore,zipNineMatch }) => {
+    scoredData.forEach(({ zipNineMatch }) => {
       if (zipNineMatch ) {
         zipNineMatchCount++;
       }

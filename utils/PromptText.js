@@ -66,7 +66,7 @@ async function callLmStudioOcr(imagesDir) {
 export async function promptText() {
 	// Hard-coded absolute path to the project's text directory (Windows)
 	const dirToUse = 'C:\\codebase\\OpenaiApi\\text';
-	const imagesDir = 'C:\\codebase\\OpenaiApi\\images';
+	const imagesDir = 'C:\\codebase\\OpenaiApi\\pro_images';
 
 	// If USE_LM_OCR enabled, try LM Studio first, then fallback to file-based aggregation
 	if (String(process.env.USE_LM_OCR || '') === '1') {

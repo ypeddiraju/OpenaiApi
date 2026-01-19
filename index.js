@@ -84,7 +84,7 @@ async function main() {
     if (String(process.env.SHOW_PROMPT || '') === '1') {
         console.log('AI Prompt:', content);
     }
-    const images = await loadImages('C:/codebase/OpenaiApi/images', '*.jpg'); // Load images from hardcoded images directory
+    const images = await loadImages('C:/codebase/OpenaiApi/pro_images', '*.jpg'); // Load images from hardcoded pro_images directory
     return await doOpenAIQuickie(aiconfig, content, images);
 }
 
@@ -227,6 +227,7 @@ function aiEvent2OpenAIMessage(event) {
                     type: 'image_url',
                     image_url: {
                         url: `data:${image?.mime};base64,${image?.data}`,
+                        "detail":"high"
                     },
                 })),
             ],

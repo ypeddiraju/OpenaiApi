@@ -20,7 +20,7 @@ ${TEXT_AGG}
 - Please respond with the following JSON object
 ${makeJSONBlock({
     chainOfThought: 'Explain your thought process and the logic of your choices here',
-    invoiceNumber: '(REQUIRED) string - The invoice number - leave blank if missing',
+    invoiceNumber: '(REQUIRED) string - The invoice number - leave blank if missing , If there are *Supplier Invoice #:* number and *Return Invoice #:* number then choose *Return Invoice #:* and also follow the notes section carefully',
     invoiceDate: '(REQUIRED) string - The invoice date (in ISO format e.g. 2022-01-21)',
     invoiceAmount: '(REQUIRED) number - The invoice amount for the invoice',
     currency: '(REQUIRED) string - The currency of the invoice (e.g. USD)',
@@ -70,10 +70,23 @@ ${makeJSONBlock({
     poNumber: 'string - The Purchase Order (PO) number (see notes below)',
 })}
 
+# NOTES - Invoice Number - ***Critical & High priority feild***
+- The invoice number is a unique identifier for the invoice document and can contain letters, numbers, or a combination of both
+- Use your vision of the document image to verify these characters. For example, if the OCR text reads '1004067843:01' but the image clearly shows the first character is a sans-serifed capital 'I' without horizontal crossbars at the top and bottom, the correct invoice number is 'I004067843:01'. Similarly, if the OCR reads 'L251097' but the image shows a character sans-serifed 'I', the correct value is 'L25I097'.
+- Be extremely vigilant for common OCR errors. Actively look for and correct these specific mistakes only using visional verification against the image: - ** Critical Test case -  if you have 1 in invoice number - 1 vs I or | : the number '1' should only be considered if it must have a diagonal serif at top, if there is no diagonal serif (or) only straight line then it is an 'I' **
+ - I vs. 1: The letter 'I' is often misread as the number '1' (e.g., OCR says 0516... but the image shows 05I6. or like OCR says 1004... but the image shows I004).
+ - O vs. 0: The letter 'O' is often misread as the number '0'.
+ - 0 vs. O: The number '0' is often misread as the letter 'O'.
+ - S vs. 5: The letter 'S' is often misread as the number '5'. 
+ - Z vs. 2: The letter 'Z' is often misread as the number '2'.
+ - B vs. 8: The letter 'B' is often misread as the number '8'.
+- In your chainOfThought, you must state that you have visually verified the invoice number and mention any corrections you made from the OCR text and also each invoice number character verification.
+
 # NOTES - Vendor Company Name
 - The vendor company name must be inferred independently from the invoice content (including images and OCR text).
 - Do not assume the vendor company name based on this prompt or the company "Republic Services".
 - Look for clear indicators such as the company name in the header, footer, or contact information of the invoice.
+- If the invoice vendor is listed as 'US Ecology' and the 'Republic Services' logo is also present in the header beside it, then the vendor company name should be 'Republic Services'. Otherwise, if only 'US Ecology' is present, use 'US Ecology'.
 - If an abbreviation or logo is present (e.g., "ORRCO"), and a corresponding full company name is also found (e.g., "Oil Re-Refining Company, Inc."), prioritize extracting the full company name. The full name is often found near the abbreviation or logo.
 
 # NOTES - isRepublicServices

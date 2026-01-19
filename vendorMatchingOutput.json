@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-01-13T08:50:47.766Z",
+  "inputFiles": {
+    "jsonFile": "C:\\codebase\\OpenaiApi\\phase1data.json",
+    "csvFile": "C:\\codebase\\OpenaiApi\\vendors\\vendor_addr_20251126.csv"
+  },
+  "config": {
+    "isCanadian": false,
+    "minScore": 38
+  },
+  "vendorCompanyName": "Diesel Direct",
+  "totalMatches": 2,
+  "topMatches": [
+    {
+      "VENDORORGANIZATIONNAME": "D & W DIESEL, INC.",
+      "ADDRESSLOCATIONROLES": "Business;Remit to",
+      "VENDORACCOUNTNUMBER": "V000956",
+      "FORMATTEDADDRESS": "1503 CLARK STREET ROAD\nAUBURN, NY  13021-9593",
+      "ADDRESSCITY": "AUBURN",
+      "ADDRESSCOUNTRYREGIONID": "USA",
+      "ADDRESSCOUNTYID": "",
+      "ADDRESSDESCRIPTION": "D & W DIESEL, INC.",
+      "ADDRESSLOCATIONID": "L000026414",
+      "ADDRESSSTATEID": "NY",
+      "ADDRESSSTREET": "1503 CLARK STREET ROAD",
+      "ADDRESSSTREETNUMBER": "",
+      "ADDRESSVALIDFROM": "12/20/2019 04:54:31",
+      "ADDRESSVALIDTO": "12/31/2154 23:59:59",
+      "ADDRESSZIPCODE": "13021-9593",
+      "DATAAREAID": "101",
+      "score": 110,
+      "noOfMatches": 1,
+      "companyMatchScore": 110,
+      "zipNineMatch": false
+    },
+    {
+      "VENDORORGANIZATIONNAME": "DIESEL DIRECT MID ATLANTIC",
+      "ADDRESSLOCATIONROLES": "Remit to",
+      "VENDORACCOUNTNUMBER": "V017068",
+      "FORMATTEDADDRESS": "P.O. BOX 536785\nPITTSBURGH, PA  15253",
+      "ADDRESSCITY": "PITTSBURGH",
+      "ADDRESSCOUNTRYREGIONID": "USA",
+      "ADDRESSCOUNTYID": "",
+      "ADDRESSDESCRIPTION": "DIESEL DIRECT",
+      "ADDRESSLOCATIONID": "L000393874",
+      "ADDRESSSTATEID": "PA",
+      "ADDRESSSTREET": "P.O. BOX 536785",
+      "ADDRESSSTREETNUMBER": "",
+      "ADDRESSVALIDFROM": "11/22/2024 18:47:18",
+      "ADDRESSVALIDTO": "12/31/2154 23:59:59",
+      "ADDRESSZIPCODE": "15253",
+      "DATAAREAID": "101",
+      "score": 110,
+      "noOfMatches": 1,
+      "companyMatchScore": 110,
+      "zipNineMatch": false
+    }
+  ]
+}
