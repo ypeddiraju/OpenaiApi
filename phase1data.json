@@ -1,37 +1,40 @@
 {
-    "chainOfThought": "The invoice is from Diesel Direct, as indicated by the logo and company name at the top. The invoice number is clearly labeled as 120251118. The invoice amount is 3851.49, which is the total listed. There is no specific currency mentioned, but assuming USD is safe given the context. The invoice does not display any Republic Services logo, so isRepublicServices is false. There is no date or other addresses visible on the invoice.",
-    "invoiceNumber": "120251118",
-    "invoiceDate": "",
-    "invoiceAmount": 3851.49,
-    "currency": "USD",
-    "isRepublicServices": false,
-    "vendorCompanyName": "Diesel Direct",
-    "rentalAgreementNumber": null,
-    "remitToAddress": {
-        "companyName": null,
-        "address1": null,
-        "state": null,
-        "zipCode": null
-    },
-    "otherSupplierAddresses": [],
-    "shipToAddress": {
-        "companyName": null,
-        "address1": null,
-        "state": null,
-        "zipCode": null
-    },
-    "otherAddresses": [],
-    "billToAddress": {
-        "companyName": null,
-        "address1": null,
-        "state": null,
-        "zipCode": null
-    },
-    "soldToAddress": {
-        "companyName": null,
-        "address1": null,
-        "state": null,
-        "zipCode": null
-    },
-    "poNumber": ""
+  "chainOfThought": "The invoice number '42309A' is clearly visible on the invoice. The invoice date is '1/15/2026', which is in ISO format. The amount due is '$3,328.00', and since there's no currency specified, it's assumed to be USD based on the location (KY, USA). The vendor company name, 'Perdue Environmental Contracting Co.', is clearly indicated at the top of the invoice. 'REPUBLIC SERVICES' appears on other pages, but not prominently on the invoice page, so isRepublicServices is false. The remit-to address is the same as the vendor's address, which is clearly marked for payment. The 'Bill To' address is for 'EQ-DBA US ECOLOGY-LIVONIA'. There are no rental agreement numbers or PO numbers that match the given formats.",
+  "invoiceNumber": "42309A",
+  "invoiceDate": "2026-01-15",
+  "invoiceAmount": 3328,
+  "currency": "USD",
+  "isRepublicServices": false,
+  "vendorCompanyName": "Perdue Environmental Contracting Co.",
+  "rentalAgreementNumber": null,
+  "remitToAddress": {
+    "companyName": "Perdue Environmental Contracting Co.",
+    "address1": "250 Etter Drive",
+    "state": "KY",
+    "zipCode": "40356"
+  },
+  "otherSupplierAddresses": [],
+  "shipToAddress": {
+    "companyName": "SUNCOKE",
+    "address1": "3353 Yankee Rd",
+    "state": "OH",
+    "zipCode": "45042"
+  },
+  "otherAddresses": [],
+  "billToAddress": {
+    "companyName": "EQ-DBA US ECOLOGY-LIVONIA",
+    "address1": "17440 COLLEGE PARKWAY STE 300",
+    "state": "MI",
+    "zipCode": "48152"
+  },
+  "soldToAddress": {},
+  "poNumber": "",
+  "po": "",
+  "requisition": "",
+  "le": "",
+  "bu": "",
+  "project": "",
+  "account": "",
+  "confidence": 0.5,
+  "method": "S"
 }

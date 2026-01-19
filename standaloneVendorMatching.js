@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename);
 // Configuration
 const CONFIG = {
   jsonFilePath: path.join(__dirname, "phase1data.json"),
-  csvFilePath: path.join(__dirname, "vendors", "vendor_addr_20251126.csv"),
+  csvFilePath: path.join(__dirname, "vendors", "vendor.csv"),
   isCanadian: false,
   minScore: 38,
 };
@@ -122,7 +122,7 @@ function scoreAddressMatch(a, vendorCompanyName, b, logIt = false) {
   let noOfMatches = 0;
   let zipNineMatch = false;
 
-  if (b.companyName == "REXEL USA INC") {
+  if (b.companyName == "PECCO, INC.") {
     console.log("score", score, "matches", noOfMatches);
   }
 
